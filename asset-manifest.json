@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/simple-react-app/static/css/main.ba17183d.css",
+    "main.js": "/simple-react-app/static/js/main.4557e42e.js",
+    "static/js/27.a777db33.chunk.js": "/simple-react-app/static/js/27.a777db33.chunk.js",
+    "static/media/logo.svg": "/simple-react-app/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/simple-react-app/index.html"
+  },
+  "entrypoints": [
+    "static/css/main.ba17183d.css",
+    "static/js/main.4557e42e.js"
+  ]
+}
