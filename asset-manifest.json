@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.js": "/simple-react-app/static/js/main.18c76f59.js",
+    "main.js": "/simple-react-app/static/js/main.24459b97.js",
     "static/js/45086.d9abe11b.chunk.js": "/simple-react-app/static/js/45086.d9abe11b.chunk.js",
     "static/js/1203.61e2ec69.chunk.js": "/simple-react-app/static/js/1203.61e2ec69.chunk.js",
     "static/js/93201.34adfd29.chunk.js": "/simple-react-app/static/js/93201.34adfd29.chunk.js",
@@ -711,6 +711,6 @@
     "index.html": "/simple-react-app/index.html"
   },
   "entrypoints": [
-    "static/js/main.18c76f59.js"
+    "static/js/main.24459b97.js"
   ]
 }
