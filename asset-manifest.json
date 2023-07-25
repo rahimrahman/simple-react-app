@@ -1,12 +1,12 @@
 {
   "files": {
     "main.css": "/simple-react-app/static/css/main.e7199700.css",
-    "main.js": "/simple-react-app/static/js/main.7de9aa95.js",
+    "main.js": "/simple-react-app/static/js/main.ac5d3ea1.js",
     "static/js/27.e80a4561.chunk.js": "/simple-react-app/static/js/27.e80a4561.chunk.js",
     "index.html": "/simple-react-app/index.html"
   },
   "entrypoints": [
     "static/css/main.e7199700.css",
-    "static/js/main.7de9aa95.js"
+    "static/js/main.ac5d3ea1.js"
   ]
 }
