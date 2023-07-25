@@ -13,9 +13,13 @@ describe("CheckEligibilityButton", () => {
     fireEvent.change(screen.getByTestId("date-of-birth-input"), {
       target: { value: "1980-01-01" },
     });
-    fireEvent.change(screen.getByTestId("insurance-input"), {
-      target: { value: "2" },
-    });
+
+    const selectInput = screen.getByTestId("insurance-input");
+    // eslint-disable-next-line testing-library/no-node-access
+    fireEvent.keyDown(selectInput.firstChild!, { key: "ArrowDown" });
+    const firstOption = screen.getAllByText(/Blue Cross Blue Shields/i);
+    fireEvent.click(firstOption[0], { key: "ArrowDown" });
+
     fireEvent.change(screen.getByTestId("member-id-input"), {
       target: { value: "2" },
     });
@@ -78,6 +82,28 @@ describe("CheckEligibilityButton", () => {
 
     expect(onSubmit).toBeCalledWith(true);
     jest.useRealTimers();
+  });
+
+  it("submits the form with invalid member ID", () => {
+    const onSubmit = jest.fn();
+    render(<Form onSubmit={onSubmit} />);
+
+    fillFormFields();
+
+    fireEvent.change(screen.getByTestId("email-input"), {
+      target: { value: "rahim.rahman@virtahealth.com" },
+    });
+
+    fireEvent.change(screen.getByTestId("member-id-input"), {
+      target: { value: "ABC-123" },
+    });
+
+    const checkEligibilityButton = screen.getByTestId("submit-button");
+    fireEvent.click(checkEligibilityButton);
+
+    expect(
+      screen.getByText("Member ID should be numbers and letters only")
+    ).toBeInTheDocument();
   });
 
   it("renders correct error when not entering any text", async () => {
