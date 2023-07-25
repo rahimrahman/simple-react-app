@@ -1,26 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Result } from "./pages/Result/Result";
+import { Form } from "./pages/Form/Form";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+const App = () => {
+  const [isCovered, setIsCovered] = React.useState<boolean>(true);
+  const [page, setPage] = React.useState<"form" | "result">("form");
+
+  const handleOnSubmit = (isCovered: boolean) => {
+    setIsCovered(isCovered);
+    setPage("result");
+  };
+  return page === "result" ? (
+    <Result isCovered={isCovered} />
+  ) : (
+    <Form onSubmit={handleOnSubmit} />
   );
-}
+};
 
 export default App;
