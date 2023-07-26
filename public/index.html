@@ -26,10 +26,40 @@
     -->
     <title>React App</title>
     <style>
+      @font-face {
+        font-family: "Figtree";
+        src: url("https://assets.website-files.com/64b80aca158a744c06fee738/64b80aca158a744c06feea23_Figtree-Regular.woff2")
+          format("woff2");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Figtree";
+        src: url("https://assets.website-files.com/64b80aca158a744c06fee738/64b80aca158a744c06feea17_Figtree-Italic.woff2")
+          format("woff2");
+        font-weight: 400;
+        font-style: italic;
+        font-display: swap;
+      }
+      @font-feature-values "Figtree" {
+        @styleset {
+          alt-a: 1;
+        }
+      }
       #root {
         max-width: 1240px;
         min-height: 640px;
         display: flex;
+      }
+      body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-feature-settings: "kern" 1, "tnum";
+        font-kerning: normal;
+        font-variant-alternates: styleset(alt-a);
+        font-family: "Figtree";
+        line-height: 150%;
       }
     </style>
   </head>
