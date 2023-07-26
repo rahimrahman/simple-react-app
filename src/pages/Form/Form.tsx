@@ -14,7 +14,7 @@ export type FormFields = {
   firstName: string;
   lastName: string;
   dateOfBirth: string;
-  payorId: string;
+  // payorId: string;
   insurance: string;
   memberId: string;
   [key: string]: string;
@@ -30,7 +30,7 @@ const INITIAL_DATA: FormFields = {
   lastName: "",
   dateOfBirth: "",
   insurance: "",
-  payorId: "",
+  // payorId: "",
   memberId: "",
 };
 const fieldsMap: Record<string, string> = {
@@ -100,6 +100,7 @@ export const Form: FC<FormProps> = ({ onSubmit }) => {
         };
       }
     }
+    console.log({ newErrors });
     setErrors(newErrors);
 
     if (isValidated) {
