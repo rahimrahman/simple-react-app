@@ -1,42 +1,44 @@
-import React, { FC } from "react";
+import React, { useState, FC } from "react";
 import "./CheckEligibilityButton.css";
 
 type CheckEligibilityButtonProps = {
   isLoading?: boolean;
+  onClick: () => void;
 };
 
 export const CheckEligibilityButton: FC<CheckEligibilityButtonProps> = ({
   isLoading = false,
+  onClick,
 }) => {
+  const [isHovering, setIsHovering] = useState(false);
+
+  const handleOnMouseEnter = () => {
+    setIsHovering(!isHovering);
+  };
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "16px",
-        fontSize: "20px",
-        fontWeight: "700",
-        color: "#FFFFFF",
-      }}
-    >
+    <div className="ec-check-eligibility-button-container">
       {isLoading ? (
-        <>
+        <div data-testid="checking-eligibility">
           <div className="icon loading-icon">
             <LoadingSVG />
           </div>
           <div>Checking</div>
           <div>Eligibility...</div>
-        </>
+        </div>
       ) : (
-        <>
-          <div className="icon">
-            <ArrowSVG />
+        <div
+          className="ec-check-eligibility-button"
+          data-testid="submit-button"
+          onClick={onClick}
+          onMouseEnter={handleOnMouseEnter}
+          onMouseLeave={handleOnMouseEnter}
+        >
+          <div className="icon" data-testid={"icon"}>
+            <ArrowSVG isHovering={isHovering} />
           </div>
           <div>Check</div>
           <div>Eligibility</div>
-        </>
+        </div>
       )}
     </div>
   );
@@ -69,24 +71,28 @@ const LoadingSVG = () => (
   </svg>
 );
 
-const ArrowSVG = () => (
+type ArrowSVGProps = {
+  isHovering?: boolean;
+};
+export const ArrowSVG: FC<ArrowSVGProps> = ({ isHovering = false }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="97"
     height="97"
     viewBox="0 0 97 97"
     fill="none"
+    role={"img"}
   >
     <path
       d="M66.0859 48.0273H30.0859"
-      stroke="white"
+      stroke={isHovering ? "#82D8AF" : "white"}
       strokeWidth="3"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M51.0859 33.0273L66.0859 48.0273L51.0859 63.0273"
-      stroke="white"
+      stroke={isHovering ? "#82D8AF" : "white"}
       strokeWidth="3"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -95,7 +101,7 @@ const ArrowSVG = () => (
       fillRule="evenodd"
       clipRule="evenodd"
       d="M48.0859 90.0273C71.2819 90.0273 90.0859 71.2233 90.0859 48.0273C90.0859 24.8314 71.2819 6.02734 48.0859 6.02734C24.89 6.02734 6.08594 24.8314 6.08594 48.0273C6.08594 71.2233 24.89 90.0273 48.0859 90.0273Z"
-      stroke="white"
+      stroke={isHovering ? "#82D8AF" : "white"}
       strokeWidth="3"
       strokeLinecap="round"
       strokeLinejoin="round"
