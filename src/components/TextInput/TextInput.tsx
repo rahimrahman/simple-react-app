@@ -3,6 +3,7 @@ import { FormFieldWrapper } from "../FormFieldWrapper/FormFieldWrapper";
 import "./TextInput.css";
 
 type TextInputProps = {
+  name?: string;
   label: string;
   type?: "text" | "date";
   error?: string;
@@ -12,6 +13,7 @@ type TextInputProps = {
 
 export const TextInput: FC<TextInputProps> = ({
   label,
+  name,
   type = "text",
   onChange,
   error,
@@ -22,6 +24,7 @@ export const TextInput: FC<TextInputProps> = ({
       <input
         className="ec-input"
         data-testid={testID}
+        name={name}
         type={type}
         style={{
           borderColor: error ? "#FFCD5F" : "#0D4F40",
