@@ -3,6 +3,7 @@ import { TextInput } from "../../components/TextInput/TextInput";
 import { WavyHeader } from "../../components/WavyHeader/WavyHeader";
 import { SelectInput } from "../../components/SelectInput/SelectInput";
 import { CheckEligibilityButton } from "../../components/CheckEligibilityButton/CheckEligibilityButton";
+import "./Form.css";
 
 type FormProps = {
   onSubmit: (isCovered: boolean) => void;
@@ -21,13 +22,24 @@ const fieldsMap: Record<string, string> = {
   firstName: "First Name",
   lastName: "Last Name",
   dateOfBirth: "Date of Birth",
-  insurance: "Insurance Carrier or Employer",
+  insurance: "Insurer",
   memberId: "Member ID",
 };
 export const Form: FC<FormProps> = ({ onSubmit }) => {
   const [errors, setErrors] = useState(initialErrors);
   const [isLoading, setIsLoading] = useState(false);
   const formFields = useRef<Record<string, string>>({ ...initialErrors });
+
+  const handleOnChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const name = e.target.name;
+    formFields.current[name] = e.target.value;
+    // @ts-ignore
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: "" });
+    }
+  };
 
   const handleOnSubmit = () => {
     let isValidated = true;
@@ -69,7 +81,6 @@ export const Form: FC<FormProps> = ({ onSubmit }) => {
         };
       }
     }
-
     setErrors(newErrors);
 
     if (isValidated) {
@@ -98,84 +109,85 @@ export const Form: FC<FormProps> = ({ onSubmit }) => {
   return (
     <div
       style={{
-        display: "flex",
         backgroundColor: "#0D4F40",
+        borderRadius: "inherit",
+        display: "flex",
         flex: 1,
         flexDirection: "column",
+        minHeight: "inherit",
       }}
     >
       <WavyHeader />
 
       <div style={{ display: "flex", flexDirection: "row", padding: "24px" }}>
         <div style={{ display: "flex", flex: 1 }}></div>
-        <div style={{ display: "flex", flex: 3, flexDirection: "column" }}>
+        <div className="ec-form-main">
           <FormRow>
             <TextInput
               label={"First Name"}
               error={errors.firstName}
-              onChange={(e) => {
-                formFields.current.firstName = e.target.value;
-              }}
+              name={"firstName"}
+              onChange={handleOnChange}
               testID="first-name-input"
             />
             <TextInput
               label={"Last Name"}
               error={errors.lastName}
-              onChange={(e) => {
-                formFields.current.lastName = e.target.value;
-              }}
+              name={"lastName"}
+              onChange={handleOnChange}
               testID="last-name-input"
             />
           </FormRow>
           <FormRow>
             <TextInput
-              label={"Email address"}
-              onChange={(e) => {
-                formFields.current.email = e.target.value;
-              }}
+              label={"Email Address"}
+              name={"email"}
+              onChange={handleOnChange}
               error={errors.email}
               testID="email-input"
             />
             <TextInput
-              label={"Date of birth"}
+              label={"Date of Birth"}
+              name="dateOfBirth"
               type={"date"}
               error={errors.dateOfBirth}
-              onChange={(e) => {
-                formFields.current.dateOfBirth = e.target.value;
-              }}
+              onChange={handleOnChange}
               testID="date-of-birth-input"
             />
           </FormRow>
           <FormRow>
             <SelectInput
-              label={"Insurance Carrier or Employer"}
+              label={"Insurer"}
               error={errors.insurance}
               onChange={(e) => {
                 formFields.current.insurance = e.target.value;
+                if (errors.insurance) {
+                  setErrors({ ...errors, insurance: "" });
+                }
               }}
               testID="insurance-input"
             />
 
             <TextInput
-              label={"Member ID"}
               error={errors.memberId}
-              onChange={(e) => {
-                formFields.current.memberId = e.target.value;
-              }}
+              label={"Member ID"}
+              name="memberId"
+              onChange={handleOnChange}
               testID="member-id-input"
             />
           </FormRow>
         </div>
         <div
-          data-testid="submit-button"
           style={{
             display: "flex",
             flex: 1,
             flexWrap: "wrap",
           }}
-          onClick={handleOnSubmit}
         >
-          <CheckEligibilityButton isLoading={isLoading} />
+          <CheckEligibilityButton
+            isLoading={isLoading}
+            onClick={handleOnSubmit}
+          />
         </div>
       </div>
 
@@ -188,7 +200,7 @@ export const Form: FC<FormProps> = ({ onSubmit }) => {
         }}
       >
         By signing up you agree to receive periodic emails from Virta. You can
-        opt-out at any time.{" "}
+        opt-out at any time.&nbsp;&nbsp;
         <a href="/privacypolicy" style={{ color: "#FFFFFF" }}>
           Privacy Policy
         </a>
@@ -202,7 +214,6 @@ export const FormRow = ({ children }: { children: React.ReactNode }) => (
   <div
     style={{
       display: "flex",
-      justifyContent: "space-around",
     }}
   >
     {children}

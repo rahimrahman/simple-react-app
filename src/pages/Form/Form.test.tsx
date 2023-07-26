@@ -46,6 +46,32 @@ describe("CheckEligibilityButton", () => {
     expect(onSubmit).toBeCalledWith(true);
   });
 
+  it("render error message then dissapear as input being entered or selected", () => {
+    const onSubmit = jest.fn();
+    render(<Form onSubmit={onSubmit} />);
+
+    const checkEligibilityButton = screen.getByTestId("submit-button");
+    fireEvent.click(checkEligibilityButton);
+
+    expect(screen.getByText("First Name is required")).toBeInTheDocument();
+    expect(screen.getByText("Insurer is required")).toBeInTheDocument();
+    expect(onSubmit).not.toBeCalled();
+
+    fireEvent.change(screen.getByTestId("first-name-input"), {
+      target: { value: "Rahim" },
+    });
+    expect(
+      screen.queryByText("First Name is required")
+    ).not.toBeInTheDocument();
+
+    const selectInput = screen.getByTestId("insurance-input");
+    // eslint-disable-next-line testing-library/no-node-access
+    fireEvent.keyDown(selectInput.firstChild!, { key: "ArrowDown" });
+    const anOption = screen.getByText("Anthem");
+    fireEvent.click(anOption, { key: "ArrowDown" });
+    expect(screen.queryByText("Insurer is required")).not.toBeInTheDocument();
+  });
+
   it("submits the form with email which will result in patient not covered", () => {
     const onSubmit = jest.fn();
     render(<Form onSubmit={onSubmit} />);
