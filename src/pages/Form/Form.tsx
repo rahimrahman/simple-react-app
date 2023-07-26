@@ -24,7 +24,7 @@ type FormProps = {
   onSubmit: (isCovered: boolean) => void;
   testID?: string;
 };
-const initialErrors: FormFields = {
+const INITIAL_DATA: FormFields = {
   email: "",
   firstName: "",
   lastName: "",
@@ -43,10 +43,12 @@ const fieldsMap: Record<string, string> = {
   memberId: "Member ID",
 };
 export const Form: FC<FormProps> = ({ onSubmit }) => {
-  const [errors, setErrors] = useState(initialErrors);
+  const [errors, setErrors] = useState({
+    ...INITIAL_DATA,
+  });
   const [isLoading, setIsLoading] = useState(false);
-  const formFields = useRef<Record<keyof FormFields, string>>({
-    ...initialErrors,
+  const formFields = useRef<FormFields>({
+    ...INITIAL_DATA,
   });
 
   const handleOnChange = (
@@ -61,9 +63,9 @@ export const Form: FC<FormProps> = ({ onSubmit }) => {
 
   const handleOnSubmit = async () => {
     let isValidated = true;
-    setErrors(initialErrors);
+    setErrors({ ...INITIAL_DATA });
 
-    let newErrors = { ...initialErrors };
+    let newErrors = { ...INITIAL_DATA };
     Object.keys(formFields.current).forEach((key: string) => {
       if (!formFields.current[key]) {
         isValidated = false;
@@ -101,7 +103,7 @@ export const Form: FC<FormProps> = ({ onSubmit }) => {
     setErrors(newErrors);
 
     if (isValidated) {
-      setErrors(initialErrors);
+      setErrors({ ...INITIAL_DATA });
       setIsLoading(true);
 
       if (formFields.current.email === "show.loading.2000@virtahealth.com") {
