@@ -1,22 +1,13 @@
 import React from "react";
 
+import "./ContinueApplicationButton.css";
+
 export const ContinueApplicationButton = () => {
   return (
     <div>
       <button
         type="button"
-        style={{
-          borderWidth: "1px",
-          borderColor: "#FFF",
-          margin: "16px",
-          padding: "10px 24px 10px 24px",
-          backgroundColor: "transparent",
-          color: "#FFF",
-          fontSize: "20px",
-          fontWeight: "700",
-          borderRadius: "4px",
-          borderStyle: "solid",
-        }}
+        className="ec-continue-application-button"
         onClick={() => {
           window.location.href = "https://my.virtahealth.com/apply/get-started";
         }}

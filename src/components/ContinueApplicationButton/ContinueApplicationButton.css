@@ -1,0 +1,12 @@
+.ec-continue-application-button {
+  background-color: transparent;
+  border-color: #FFF;
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 2px;
+  color: #FFF;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 16px;
+  padding: 10px 24px;
+}
