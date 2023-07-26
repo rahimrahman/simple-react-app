@@ -1,34 +1,15 @@
 import React, { FC } from "react";
+
 import { ContinueApplicationButton } from "../../components/ContinueApplicationButton/ContinueApplicationButton";
+import "./Result.css";
 
 type ResultProps = {
   isCovered: boolean;
 };
 export const Result: FC<ResultProps> = ({ isCovered }) => {
   return (
-    <div
-      style={{
-        backgroundColor: "#0D4F40",
-        padding: "64px 0px 64px 0px",
-        justifyContent: "space-around",
-        display: "flex",
-        flexDirection: "column",
-        // flexGrow: 1,
-        flex: 1,
-        alignItems: "center",
-        minHeight: "100%",
-      }}
-    >
-      <div
-        style={{
-          color: "#FFF",
-          textAlign: "center",
-          fontSize: "48px",
-          fontWeight: "700",
-          padding: "16px",
-          lineHeight: "56px",
-        }}
-      >
+    <div className="ec-result-container">
+      <div className="ec-result-main">
         {isCovered ? (
           <>
             <div>Good news! Your health plan</div>
@@ -43,14 +24,7 @@ export const Result: FC<ResultProps> = ({ isCovered }) => {
         )}
       </div>
 
-      <div
-        style={{
-          padding: "16px",
-          fontSize: "24px",
-          color: "#FFF",
-          textAlign: "center",
-        }}
-      >
+      <div className="ec-result-sub">
         {isCovered ? (
           <>
             <div>Complete an application to confirm your health</div>
@@ -64,7 +38,19 @@ export const Result: FC<ResultProps> = ({ isCovered }) => {
         )}
       </div>
 
-      <ContinueApplicationButton />
+      <div>
+        <ContinueApplicationButton />
+        {!isCovered && (
+          <div style={{ textAlign: "center" }}>
+            <a
+              href="https://virtahealth.zendesk.com/hc/en-us/requests/new?ticket_form_id=9520802942355"
+              className="ec-result-contactsupport"
+            >
+              Contact Support
+            </a>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
