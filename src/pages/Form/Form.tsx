@@ -4,17 +4,33 @@ import { WavyHeader } from "../../components/WavyHeader/WavyHeader";
 import { SelectInput } from "../../components/SelectInput/SelectInput";
 import { CheckEligibilityButton } from "../../components/CheckEligibilityButton/CheckEligibilityButton";
 import "./Form.css";
+import {
+  postEligibilityValidation,
+  trackSubmissionAmplitude,
+} from "../../utils/networkRequests";
+
+export type FormFields = {
+  email: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  payorId: string;
+  insurance: string;
+  memberId: string;
+  [key: string]: string;
+};
 
 type FormProps = {
   onSubmit: (isCovered: boolean) => void;
   testID?: string;
 };
-const initialErrors = {
+const initialErrors: FormFields = {
   email: "",
   firstName: "",
   lastName: "",
   dateOfBirth: "",
   insurance: "",
+  payorId: "",
   memberId: "",
 };
 const fieldsMap: Record<string, string> = {
@@ -23,32 +39,33 @@ const fieldsMap: Record<string, string> = {
   lastName: "Last Name",
   dateOfBirth: "Date of Birth",
   insurance: "Insurer",
+  payorId: "Insurer",
   memberId: "Member ID",
 };
 export const Form: FC<FormProps> = ({ onSubmit }) => {
   const [errors, setErrors] = useState(initialErrors);
   const [isLoading, setIsLoading] = useState(false);
-  const formFields = useRef<Record<string, string>>({ ...initialErrors });
+  const formFields = useRef<Record<keyof FormFields, string>>({
+    ...initialErrors,
+  });
 
   const handleOnChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const name = e.target.name;
     formFields.current[name] = e.target.value;
-    // @ts-ignore
     if (errors[name]) {
       setErrors({ ...errors, [name]: "" });
     }
   };
 
-  const handleOnSubmit = () => {
+  const handleOnSubmit = async () => {
     let isValidated = true;
     setErrors(initialErrors);
 
     let newErrors = { ...initialErrors };
-    Object.keys(formFields.current).forEach((key) => {
+    Object.keys(formFields.current).forEach((key: string) => {
       if (!formFields.current[key]) {
-        // TODO: undo comment before production
         isValidated = false;
         newErrors = {
           ...newErrors,
@@ -98,11 +115,11 @@ export const Form: FC<FormProps> = ({ onSubmit }) => {
         setIsLoading(false);
         onSubmit(false);
       } else {
+        const isEligible = await postEligibilityValidation(formFields.current);
+        trackSubmissionAmplitude(formFields.current, isEligible);
+
         setIsLoading(false);
-        // TODO: send to backend
-        // TODO: send to Amplitude
-        // TODO: send to
-        onSubmit(true);
+        onSubmit(isEligible);
       }
     }
   };
@@ -200,7 +217,7 @@ export const Form: FC<FormProps> = ({ onSubmit }) => {
         }}
       >
         By signing up you agree to receive periodic emails from Virta. You can
-        opt-out at any time.&nbsp;&nbsp;
+        opt-out at any time.&nbsp;
         <a href="/privacypolicy" style={{ color: "#FFFFFF" }}>
           Privacy Policy
         </a>
