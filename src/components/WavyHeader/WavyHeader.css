@@ -3,5 +3,6 @@
  height: 171px;
  justify-content: center;
  align-items: center;
+ border-radius: inherit;
  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjQxIiBoZWlnaHQ9IjE3MSIgdmlld0JveD0iMCAwIDEyNDEgMTcxIiBmaWxsPSJub25lIj4KICA8cGF0aCBkPSJNMTI0Ni44NyAtMzIuMzAzSC01Ljc1MjY5VjE0OS4zNDFDLTUuNzUyNjkgMTQ5LjM0MSAyNDUuNjQxIDE5Ni40ODYgNjIwLjU1NiAxNDkuMzQxQzk5NS40NzIgMTAyLjE5NiAxMjQ2Ljg3IDE0OS4zNDEgMTI0Ni44NyAxNDkuMzQxVi0zMi4zMDNaIiBmaWxsPSIjMzc2QzVGIi8+Cjwvc3ZnPg==");
 }
