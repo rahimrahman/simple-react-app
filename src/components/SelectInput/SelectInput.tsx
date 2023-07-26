@@ -12,7 +12,7 @@ type SelectInputProps = {
 };
 
 const OPTIONS = [
-  { value: "BCBS-CO", label: "Blue Cross Blue Shields 20" },
+  { value: "BCBS-CO", label: "Blue Cross Blue Shields 32" },
   { value: "BCBS-NE", label: "Blue Cross Blue Shields Nebraska" },
   { value: "Anthem", label: "Anthem" },
   { value: "Aetna", label: "Aetna" },
@@ -34,6 +34,7 @@ export const SelectInput: FC<SelectInputProps> = ({
     <FormFieldWrapper label={label} error={error}>
       <div data-testid={testID}>
         <Select
+          placeholder="Type or select"
           data-testid={testID}
           options={options}
           styles={{
