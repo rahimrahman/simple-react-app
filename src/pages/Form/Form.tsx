@@ -100,7 +100,6 @@ export const Form: FC<FormProps> = ({ onSubmit }) => {
         };
       }
     }
-    console.log({ newErrors });
     setErrors(newErrors);
 
     if (isValidated) {
