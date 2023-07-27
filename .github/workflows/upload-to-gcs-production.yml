@@ -1,4 +1,4 @@
-name: Upload assets to Google Cloud Storage (Staging)
+name: Upload assets to Google Cloud Storage (Production)
 
 on:
   push:

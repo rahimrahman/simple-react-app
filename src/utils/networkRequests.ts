@@ -41,3 +41,21 @@ export const postEligibilityValidation = async (
     return false;
   }
 };
+
+export const getPayors = async (): Promise<
+  { value: string; label: string }[]
+> => {
+  const response = await fetch(
+    "https://eligibility-api-gateway.stage.virta.dev/v1/eligible_payors"
+  );
+  try {
+    const data: { payors: { payor_id: string; payor_name: string }[] } =
+      await response.json();
+    return data.payors.map((payor) => ({
+      value: payor.payor_id,
+      label: payor.payor_name,
+    }));
+  } catch (_err) {
+    return [];
+  }
+};

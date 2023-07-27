@@ -1,13 +1,16 @@
-import React, { useState, useRef, FC } from "react";
+import React, { useEffect, useState, useRef, FC } from "react";
 import { TextInput } from "../../components/TextInput/TextInput";
 import { WavyHeader } from "../../components/WavyHeader/WavyHeader";
 import { SelectInput } from "../../components/SelectInput/SelectInput";
 import { CheckEligibilityButton } from "../../components/CheckEligibilityButton/CheckEligibilityButton";
 import "./Form.css";
 import {
+  getPayors,
   postEligibilityValidation,
   trackSubmissionAmplitude,
 } from "../../utils/networkRequests";
+import { SelectOption } from "../../types";
+import { STAGING_SELECT_OPTIONS } from "../../constants";
 
 export type FormFields = {
   email: string;
@@ -24,6 +27,7 @@ type FormProps = {
   onSubmit: (isCovered: boolean) => void;
   testID?: string;
 };
+
 const INITIAL_DATA: FormFields = {
   email: "",
   firstName: "",
@@ -33,6 +37,7 @@ const INITIAL_DATA: FormFields = {
   // payorId: "",
   memberId: "",
 };
+
 const fieldsMap: Record<string, string> = {
   email: "Email",
   firstName: "First Name",
@@ -42,14 +47,32 @@ const fieldsMap: Record<string, string> = {
   payorId: "Insurer",
   memberId: "Member ID",
 };
+
 export const Form: FC<FormProps> = ({ onSubmit }) => {
   const [errors, setErrors] = useState({
     ...INITIAL_DATA,
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [selectOptions, setSelectOptions] = useState<SelectOption[]>([]);
   const formFields = useRef<FormFields>({
     ...INITIAL_DATA,
   });
+  const isOptionsLoaded = useRef(false);
+
+  useEffect(() => {
+    const runAsyncFunction = async () => {
+      isOptionsLoaded.current = true;
+      const options = await getPayors();
+
+      if (process.env.REACT_APP_ENV !== "production") {
+        options.push(...STAGING_SELECT_OPTIONS);
+      }
+      setSelectOptions(options);
+    };
+    if (!isOptionsLoaded.current) {
+      runAsyncFunction();
+    }
+  }, []);
 
   const handleOnChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -184,6 +207,7 @@ export const Form: FC<FormProps> = ({ onSubmit }) => {
                   setErrors({ ...errors, insurance: "" });
                 }
               }}
+              options={selectOptions}
               testID="insurance-input"
             />
 

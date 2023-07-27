@@ -36,7 +36,7 @@ jobs:
       - name: create build
         run: |
           yarn install
-          yarn predeploy
+          REACT_APP_ENV=${{ inputs.environment }} yarn predeploy
 
       - id: "auth"
         uses: "google-github-actions/auth@v1"

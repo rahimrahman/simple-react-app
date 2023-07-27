@@ -11,23 +11,11 @@ type SelectInputProps = {
   options?: { value: string; label: string }[];
 };
 
-const OPTIONS = [
-  { value: "BCBS-CO", label: "Blue Cross Blue Shields 32" },
-  { value: "BCBS-NE", label: "Blue Cross Blue Shields Nebraska" },
-  { value: "Anthem", label: "Anthem" },
-  { value: "Aetna", label: "Aetna" },
-  { value: "Cigna", label: "Cigna" },
-  { value: "Humana", label: "Humana" },
-  { value: "Kaiser", label: "Kaiser" },
-  { value: "United", label: "United" },
-  { value: "Other", label: "Other" },
-];
-
 export const SelectInput: FC<SelectInputProps> = ({
   label,
   error,
   onChange,
-  options = OPTIONS,
+  options = [],
   testID = "selectinput-input",
 }) => {
   return (
