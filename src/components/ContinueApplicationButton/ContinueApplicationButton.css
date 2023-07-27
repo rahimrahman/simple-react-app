@@ -10,3 +10,8 @@
   margin: 16px;
   padding: 10px 24px;
 }
+
+.ec-continue-application-button:hover {
+  background-color: #FFF;
+  color: #0D4F40;
+}
