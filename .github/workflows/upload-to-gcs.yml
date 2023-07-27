@@ -1,0 +1,33 @@
+name: Upload assets to GCS
+
+on:
+  push:
+    branches:
+      - temp-develop
+
+jobs:
+  job_id:
+    permissions:
+      contents: "read"
+      id-token: "write"
+
+    steps:
+      - id: "checkout"
+        uses: "actions/checkout@v3"
+
+      - id: "auth"
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.REPO_GCP_SA_KEY }}"
+
+      # - id: "upload-file"
+      #   uses: "google-github-actions/upload-cloud-storage@v1"
+      #   with:
+      #     path: "/path/to/file"
+      #     destination: "bucket-name/file"
+
+      # # Example of using the output
+      # - id: "uploaded-files"
+      #   uses: "foo/bar@main"
+      #   env:
+      #     file: "${{ steps.upload-file.outputs.uploaded }}"
