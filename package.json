@@ -19,10 +19,11 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "predeploy": "yarn build && mv build/static/js/main.*.js build/static/js/eligibility-checker.main.js && mv build/static/css/main.*.css build/static/css/eligibility-checker.main.css",
+    "predeploy": "mv build/static/js/main.*.js build/static/js/eligibility-checker.main.js && mv build/static/css/main.*.css build/static/css/eligibility-checker.main.css",
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build:production": "react-scripts build",
+    "build:staging": "REACT_APP_ENV=staging react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
