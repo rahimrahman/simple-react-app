@@ -1,0 +1,13 @@
+name: Upload assets to Google Cloud Storage (Staging)
+
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  upload_staging_assets_to_gcs:
+    uses: ./.github/workflows/upload-to-gcs.yml
+    with:
+      environment: staging
+    secrets: inherit

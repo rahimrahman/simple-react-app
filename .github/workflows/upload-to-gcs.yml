@@ -1,0 +1,56 @@
+name: Upload assets to Google Cloud Storage
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+
+jobs:
+  upload_assets_to_gcs:
+    permissions:
+      contents: "read"
+      id-token: "write"
+
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - id: "checkout"
+        uses: "actions/checkout@v3"
+
+      - uses: actions/cache@v3
+        id: cache-node-modules
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-v1-${{ hashFiles('**/yarn.lock') }}
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: ".nvmrc"
+          cache: "yarn"
+
+      - name: create build
+        run: |
+          yarn install
+          yarn predeploy
+
+      - id: "auth"
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.REPO_GCP_SA_KEY }}"
+
+      - id: "upload-js"
+        uses: "google-github-actions/upload-cloud-storage@v1"
+        with:
+          path: "./build/static/js/eligibility-checker.main.js"
+          destination: "virtahealth-eligibility-checker/${{ inputs.environment }}"
+
+      - id: "upload-css"
+        uses: "google-github-actions/upload-cloud-storage@v1"
+        with:
+          path: "./build/static/css/eligibility-checker.main.css"
+          destination: "virtahealth-eligibility-checker/${{ inputs.environment }}"
