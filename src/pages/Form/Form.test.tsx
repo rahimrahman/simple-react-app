@@ -1,5 +1,6 @@
 import React from "react";
 import { act, fireEvent, render, screen } from "@testing-library/react";
+import * as NetworkFunctions from "../../utils/networkRequests";
 import { Form } from "./Form";
 
 describe("CheckEligibilityButton", () => {
@@ -31,9 +32,17 @@ describe("CheckEligibilityButton", () => {
     expect(screen.getByText("Last Name")).toBeInTheDocument();
   });
 
-  it("submits the form successfully", () => {
-    const onSubmit = jest.fn();
-    render(<Form onSubmit={onSubmit} />);
+  it("submits the form successfully", async () => {
+    const onSubmitFn = jest.fn();
+    const trackAmplitudeSpy = jest.spyOn(
+      NetworkFunctions,
+      "trackSubmissionAmplitude"
+    );
+    const postRequestSpy = jest
+      .spyOn(NetworkFunctions, "postEligibilityValidation")
+      .mockResolvedValue(true);
+
+    render(<Form onSubmit={onSubmitFn} />);
 
     fireEvent.change(screen.getByTestId("email-input"), {
       target: { value: "rahim.rahman@virtahealth.com" },
@@ -41,9 +50,12 @@ describe("CheckEligibilityButton", () => {
     fillFormFields();
 
     const checkEligibilityButton = screen.getByTestId("submit-button");
-    fireEvent.click(checkEligibilityButton);
+    // eslint-disable-next-line testing-library/no-unnecessary-act
+    await act(() => fireEvent.click(checkEligibilityButton));
 
-    expect(onSubmit).toBeCalledWith(true);
+    expect(postRequestSpy).toHaveBeenCalled();
+    expect(trackAmplitudeSpy).toHaveBeenCalled();
+    expect(onSubmitFn).toHaveBeenCalled();
   });
 
   it("render error message then dissapear as input being entered or selected", () => {

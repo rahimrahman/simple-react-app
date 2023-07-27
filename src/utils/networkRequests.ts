@@ -16,7 +16,9 @@ export const trackSubmissionAmplitude = (
   }
 };
 
-export const postEligibilityValidation = async (data: FormFields) => {
+export const postEligibilityValidation = async (
+  data: FormFields
+): Promise<boolean> => {
   try {
     // TODO: replace with env variable for prod vs stage
     const response = await fetch(
