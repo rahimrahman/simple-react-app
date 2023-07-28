@@ -4,3 +4,35 @@
   flex-direction: column;
   line-height: 125%;
 }
+
+.ec-form-container {
+  display: flex;
+  flex-direction: row;
+  padding: 24px;
+}
+
+.ec-form-row {
+  display: flex;
+}
+
+.ec-optin-text {
+  display: inline-block;
+  color: #FFF;
+  font-size: 16px;
+  text-align: center;
+}
+
+@media screen and (max-width: 820px) {
+  .ec-form-container {
+    flex-direction: column;
+  }
+
+  .ec-form-row {
+    flex-wrap: wrap;
+  }
+
+  .ec-optin-text {
+    padding: 0px 16px 32px 16px;
+  }
+}
+

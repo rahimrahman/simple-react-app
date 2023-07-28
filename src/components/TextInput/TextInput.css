@@ -7,3 +7,7 @@
   font-size: 18px;
   height: 50px;
 }
+
+.ec-input[type="date"] {
+  -webkit-appearance: none;
+}

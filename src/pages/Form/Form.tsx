@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, FC } from "react";
+import React, { useEffect, useState, useRef, FC, FormEvent } from "react";
 import { TextInput } from "../../components/TextInput/TextInput";
 import { WavyHeader } from "../../components/WavyHeader/WavyHeader";
 import { SelectInput } from "../../components/SelectInput/SelectInput";
@@ -84,7 +84,8 @@ export const Form: FC<FormProps> = ({ onSubmit }) => {
     }
   };
 
-  const handleOnSubmit = async () => {
+  const handleOnSubmit = async (e: FormEvent) => {
+    e.preventDefault();
     let isValidated = true;
     setErrors({ ...INITIAL_DATA });
 
@@ -148,6 +149,7 @@ export const Form: FC<FormProps> = ({ onSubmit }) => {
       }
     }
   };
+
   return (
     <div
       style={{
@@ -161,87 +163,79 @@ export const Form: FC<FormProps> = ({ onSubmit }) => {
     >
       <WavyHeader />
 
-      <div style={{ display: "flex", flexDirection: "row", padding: "24px" }}>
-        <div style={{ display: "flex", flex: 1 }}></div>
-        <div className="ec-form-main">
-          <FormRow>
-            <TextInput
-              label={"First Name"}
-              error={errors.firstName}
-              name={"firstName"}
-              onChange={handleOnChange}
-              testID="first-name-input"
-            />
-            <TextInput
-              label={"Last Name"}
-              error={errors.lastName}
-              name={"lastName"}
-              onChange={handleOnChange}
-              testID="last-name-input"
-            />
-          </FormRow>
-          <FormRow>
-            <TextInput
-              label={"Email Address"}
-              name={"email"}
-              onChange={handleOnChange}
-              error={errors.email}
-              testID="email-input"
-            />
-            <TextInput
-              label={"Date of Birth"}
-              name="dateOfBirth"
-              type={"date"}
-              error={errors.dateOfBirth}
-              onChange={handleOnChange}
-              testID="date-of-birth-input"
-            />
-          </FormRow>
-          <FormRow>
-            <SelectInput
-              label={"Insurer"}
-              error={errors.insurance}
-              onChange={(e) => {
-                formFields.current.insurance = e.target.value;
-                if (errors.insurance) {
-                  setErrors({ ...errors, insurance: "" });
-                }
-              }}
-              options={selectOptions}
-              testID="insurance-input"
-            />
+      <form onSubmit={handleOnSubmit}>
+        <div className="ec-form-container">
+          <div style={{ display: "flex", flex: 1 }}></div>
+          <div className="ec-form-main">
+            <FormRow>
+              <TextInput
+                label={"First Name"}
+                error={errors.firstName}
+                name={"firstName"}
+                onChange={handleOnChange}
+                testID="first-name-input"
+              />
+              <TextInput
+                label={"Last Name"}
+                error={errors.lastName}
+                name={"lastName"}
+                onChange={handleOnChange}
+                testID="last-name-input"
+              />
+            </FormRow>
+            <FormRow>
+              <TextInput
+                label={"Email Address"}
+                name={"email"}
+                onChange={handleOnChange}
+                error={errors.email}
+                testID="email-input"
+              />
+              <TextInput
+                label={"Date of Birth"}
+                name="dateOfBirth"
+                type={"date"}
+                error={errors.dateOfBirth}
+                onChange={handleOnChange}
+                testID="date-of-birth-input"
+              />
+            </FormRow>
+            <FormRow>
+              <SelectInput
+                label={"Insurer"}
+                error={errors.insurance}
+                onChange={(e) => {
+                  formFields.current.insurance = e.target.value;
+                  if (errors.insurance) {
+                    setErrors({ ...errors, insurance: "" });
+                  }
+                }}
+                options={selectOptions}
+                testID="insurance-input"
+              />
 
-            <TextInput
-              error={errors.memberId}
-              label={"Member ID"}
-              name="memberId"
-              onChange={handleOnChange}
-              testID="member-id-input"
-            />
-          </FormRow>
+              <TextInput
+                error={errors.memberId}
+                label={"Member ID"}
+                name="memberId"
+                onChange={handleOnChange}
+                testID="member-id-input"
+              />
+            </FormRow>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flex: 1,
+              flexWrap: "wrap",
+            }}
+          >
+            <CheckEligibilityButton isLoading={isLoading} />
+          </div>
         </div>
-        <div
-          style={{
-            display: "flex",
-            flex: 1,
-            flexWrap: "wrap",
-          }}
-        >
-          <CheckEligibilityButton
-            isLoading={isLoading}
-            onClick={handleOnSubmit}
-          />
-        </div>
-      </div>
+      </form>
 
-      <div
-        style={{
-          display: "flex",
-          color: "#FFFFFF",
-          fontSize: "16px",
-          justifyContent: "center",
-        }}
-      >
+      <div className="ec-optin-text">
         By signing up you agree to receive periodic emails from Virta. You can
         opt-out at any time.&nbsp;
         <a href="/privacypolicy" style={{ color: "#FFFFFF" }}>
@@ -254,11 +248,5 @@ export const Form: FC<FormProps> = ({ onSubmit }) => {
 };
 
 export const FormRow = ({ children }: { children: React.ReactNode }) => (
-  <div
-    style={{
-      display: "flex",
-    }}
-  >
-    {children}
-  </div>
+  <div className="ec-form-row">{children}</div>
 );

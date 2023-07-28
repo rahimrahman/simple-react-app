@@ -1,40 +1,64 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 
 import { ContinueApplicationButton } from "../../components/ContinueApplicationButton/ContinueApplicationButton";
 import "./Result.css";
+import { useWindowWidth } from "../../hooks/useWindowWidth";
+import { MultiOrSingleLineTextByWidth } from "../../components/MultiOrSingleLineTextByWidth/MultiOrSingleLineTextByWidth";
 
 type ResultProps = {
   isCovered: boolean;
 };
 export const Result: FC<ResultProps> = ({ isCovered }) => {
+  const windowWidth = useWindowWidth();
+
+  useEffect(() => {
+    const scrollToDivRoot = () => {
+      const section = document.querySelector("#root");
+      if (section) {
+        section.scrollIntoView();
+      }
+    };
+    scrollToDivRoot();
+  }, []);
+
   return (
     <div className="ec-result-container">
       <div className="ec-result-main">
         {isCovered ? (
-          <>
-            <div>Good news! Your health plan</div>
-            <div>or employer includes Virta.</div>
-            <div>Take the next step.</div>
-          </>
+          <MultiOrSingleLineTextByWidth
+            text={[
+              "Good news! Your health plan",
+              "or employer includes Virta.",
+              "Take the next step.",
+            ]}
+            width={windowWidth}
+          />
         ) : (
-          <>
-            <div>Sorry, we couldn't confirm coverage.</div>
-            <div>Here's what you can do.</div>
-          </>
+          <MultiOrSingleLineTextByWidth
+            text={["Sorry, we couldn't confirm coverage."]}
+            width={windowWidth}
+          />
         )}
       </div>
 
       <div className="ec-result-sub">
         {isCovered ? (
-          <>
-            <div>Complete an application to confirm your health</div>
-            <div>conditions are a match for Virta's core model.</div>
-          </>
+          <MultiOrSingleLineTextByWidth
+            text={[
+              "Complete an application to confirm your health",
+              "conditions are a match for Virta's care model.",
+            ]}
+            width={windowWidth}
+          />
         ) : (
-          <>
-            <div>Review form to make sure fields are correct, connect with</div>
-            <div>Support for help, or continue with an application anyway.</div>
-          </>
+          <MultiOrSingleLineTextByWidth
+            text={[
+              "Continue with an application to confirm your health conditions",
+              " are a match for Virta's care model. You can also update your",
+              "coverage information during the application process.",
+            ]}
+            width={windowWidth}
+          />
         )}
       </div>
 

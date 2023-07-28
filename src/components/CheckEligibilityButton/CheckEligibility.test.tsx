@@ -4,19 +4,19 @@ import { ArrowSVG, CheckEligibilityButton } from "./CheckEligibilityButton";
 
 describe("CheckEligibilityButton", () => {
   it("renders button", () => {
-    render(<CheckEligibilityButton onClick={jest.fn()} />);
+    render(<CheckEligibilityButton />);
     const eligibilityText = screen.getByText("Check");
     expect(eligibilityText).toBeInTheDocument();
   });
 
   it("renders Checking Eligibility...", () => {
-    render(<CheckEligibilityButton isLoading onClick={jest.fn()} />);
+    render(<CheckEligibilityButton isLoading />);
     const eligibilityText = screen.getByText(/Checking/i);
     expect(eligibilityText).toBeInTheDocument();
   });
 
   it("renders different color when hovering over button", () => {
-    render(<CheckEligibilityButton onClick={jest.fn()} />);
+    render(<CheckEligibilityButton />);
     const submitButton = screen.getByTestId("submit-button");
     const arrow = screen.getByTestId("icon");
 

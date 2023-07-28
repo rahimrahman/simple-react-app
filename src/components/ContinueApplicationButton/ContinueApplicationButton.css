@@ -9,6 +9,7 @@
   font-weight: 700;
   margin: 16px;
   padding: 10px 24px;
+  outline: none;
 }
 
 .ec-continue-application-button:hover {

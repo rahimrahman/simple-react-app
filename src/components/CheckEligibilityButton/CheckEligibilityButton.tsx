@@ -1,16 +1,17 @@
 import React, { useState, FC } from "react";
 import "./CheckEligibilityButton.css";
+import { MultiOrSingleLineTextByWidth } from "../MultiOrSingleLineTextByWidth/MultiOrSingleLineTextByWidth";
+import { useWindowWidth } from "../../hooks/useWindowWidth";
 
 type CheckEligibilityButtonProps = {
   isLoading?: boolean;
-  onClick: () => void;
 };
 
 export const CheckEligibilityButton: FC<CheckEligibilityButtonProps> = ({
   isLoading = false,
-  onClick,
 }) => {
   const [isHovering, setIsHovering] = useState(false);
+  const windowWidth = useWindowWidth();
 
   const handleOnMouseEnter = () => {
     setIsHovering(!isHovering);
@@ -18,27 +19,38 @@ export const CheckEligibilityButton: FC<CheckEligibilityButtonProps> = ({
   return (
     <div className="ec-check-eligibility-button-container">
       {isLoading ? (
-        <div data-testid="checking-eligibility">
-          <div className="icon loading-icon">
+        <div
+          data-testid="checking-eligibility"
+          className="ec-check-eligibility-button ec-check-eligibility-button-text"
+        >
+          <div className="loading-icon">
             <LoadingSVG />
           </div>
-          <div>Checking</div>
-          <div>Eligibility...</div>
+          <div>
+            <MultiOrSingleLineTextByWidth
+              text={["Checking", "Eligibility"]}
+              width={windowWidth}
+            />
+          </div>
         </div>
       ) : (
-        <div
-          className="ec-check-eligibility-button"
+        <button
+          type="submit"
+          className="ec-check-eligibility-button ec-check-eligibility-button-text"
           data-testid="submit-button"
-          onClick={onClick}
           onMouseEnter={handleOnMouseEnter}
           onMouseLeave={handleOnMouseEnter}
         >
-          <div className="icon" data-testid={"icon"}>
+          <div data-testid={"icon"}>
             <ArrowSVG isHovering={isHovering} />
           </div>
-          <div>Check</div>
-          <div>Eligibility</div>
-        </div>
+          <div>
+            <MultiOrSingleLineTextByWidth
+              text={["Check", "Eligibility"]}
+              width={windowWidth}
+            />
+          </div>
+        </button>
       )}
     </div>
   );

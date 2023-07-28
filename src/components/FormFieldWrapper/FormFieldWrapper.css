@@ -14,3 +14,9 @@
   font-size: 14px;
   color: #FFCD5F;
 }
+
+@media screen and (max-width: 768px) {
+  .ec-form-field-wrapper {
+    padding-bottom: 8px;
+  }
+}
